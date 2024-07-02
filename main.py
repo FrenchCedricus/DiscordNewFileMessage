@@ -6,16 +6,16 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from pathlib import Path
 
-# Configuration du Bot Discord
-TOKEN = 'YOUR_TOKEN_HERE'
-CHANNEL_ID = 123456789 #YOUR CHANNEL ID HERE (DEVELOPPER MODE)
+# Discord bot configuration
+TOKEN = 'YOUR_DISCORD_BOT_TOKEN_HERE' #Discord Developpeur portal
+CHANNEL_ID = 123456789 #Your channel ID here (developer mode on discord)
 
-# Initialisation du client Discord
+# Discord bot initialisation
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-# Handler pour les nouveaux fichiers
+# Handler for the new files
 class NewFileHandler(FileSystemEventHandler):
     def __init__(self, channel):
         self.channel = channel
@@ -24,31 +24,30 @@ class NewFileHandler(FileSystemEventHandler):
         if not event.is_directory:
             file_path = Path(event.src_path)
             filename = file_path.name
-            parent_dir = file_path.parent.name
-            message = f"[{parent_dir}] Ajout de : {filename}"
+            message = f"New file : {filename}"
             
-            # Envoyer un message dans le canal Discord
+            # Send a message in the discord channel
             coro = self.channel.send(message)
             fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
             try:
                 fut.result()
             except Exception as e:
-                print(f"Erreur lors de l'envoi du message : {e}")
+                print(f"Error. Impossible to send the message : {e}")
 
 @client.event
 async def on_ready():
-    print(f'Connecté en tant que {client.user} avec {client.latency}ms')
+    print(f'Connected as{client.user} with {client.latency}ms')
     channel = client.get_channel(CHANNEL_ID)
     if channel is None:
-        print(f"Le canal avec l'ID {CHANNEL_ID} est introuvable")
+        print(f"Error. The channel with ID {CHANNEL_ID} cannot be found")
         return
 
-    # Surveiller le répertoire où les fichiers sont ajoutés
+    # Watch the folder
     event_handler = NewFileHandler(channel)
     observer = Observer()
     observer.schedule(event_handler, path='./', recursive=True)
     observer.start()
-    print(f"Surveillance du dossier : ./")
+    print(f"Watching the folder : YOUR/PATH/HERE")
 
     try:
         while True:
@@ -57,5 +56,5 @@ async def on_ready():
         observer.stop()
     observer.join()
 
-# Connexion et exécution du client Discord
+# Discord bot connexion and execution
 client.run(TOKEN)
