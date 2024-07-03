@@ -8,14 +8,14 @@ You must have your discord bot private token, and your channel ID (accessible by
 
 Let's begin : 
 Once you have cloned the repo, you must lunch :
-"pip install -r requirements.txt"
+```pip install -r requirements.txt
 
 After, you would open the "main.py" file, here is all the code of the bot.
 Le's begin by adding your private token on : 
-```TOKEN = 'YOUR_DISCORD_BOT_TOKEN_HERE'```
+```TOKEN = 'YOUR_DISCORD_BOT_TOKEN_HERE'
 
 And you channel id : 
-```CHANNEL_ID = 123456789```
+```CHANNEL_ID = 123456789
 
 And that's it for the principal. you should run the python script, and enjoyed !
 
