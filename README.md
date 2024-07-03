@@ -20,7 +20,7 @@ And you channel id :
 And that's it for the principal. you should run the python script, and enjoyed !
 
 
-#Adding the "on_deleted" method
+# Adding the "on_deleted" method
 This method send message when you delete a folder, it's the same as the creation method, just the name change, due to watchdog :
 ```    
     def on_deleted(self, event):
